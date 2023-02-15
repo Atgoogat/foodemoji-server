@@ -2,6 +2,9 @@ from fastapi import FastAPI, Response
 import foodemoji
 import emoji
 from dataclasses import dataclass
+import os
+
+EMOJI_LANG = os.getenv("EMOJI_LANG", "en")
 
 @dataclass
 class InputText:
@@ -24,4 +27,4 @@ async def status():
 @app.post("/emojify")
 async def emojifiy(text: InputText):
     decoratedText = foodemoji.decorate(text.text)
-    return EmojiText(emoji.emojize(decoratedText))
+    return EmojiText(emoji.emojize(decoratedText, language=EMOJI_LANG))
